@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta name="author" content="Praktikum 2 skupina 05" />
+
+    <title>Pregled izdelkov - Ponudnik</title>
+
+    <!-- Bootstrap core-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css" />
+
+    <!-- Stili po meri -->
+    <link rel="stylesheet" href="resources/css/dashboard.css" />
+
+
+    <!-- Fonti/Pisave -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</h:head>
+<h:body>
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse" >
+        <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" />
+        </button>
+        <a class="navbar-brand" href="vnos-izdelkov.xhtml" ><img src="http://i.imgur.com/rtvChJa.png" alt="logo" style="max-height: 2em"  /></a>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <!--
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                -->
+            </ul>
+            <form class="form-inline mt-2 mt-md-0" action="izpis">
+
+                <a href="izpis" id="odjava" class="fa-lg" style="margin-left: 3em"><i class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true" />Odjava</a>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+                <ul class="nav nav-pills flex-column">
+                    <!-- TODO: Linkati vse strani -->
+                    <li class="nav-item spodaj-border">
+                            <a class="nav-link " href="vnos-izdelkov.xhtml"><i class="fa fa-edit fa-fw zamik-ikon" />Dodaj izdelek</a>
+                        </li>
+                        <li class="nav-item spodaj-border">
+                            <a class="nav-link active" href="pregledIzdelkov.xhtml"><i class="fa fa-list fa-fw zamik-ikon active-icon" />Preglej izdelke</a>
+                        </li>
+                        <li class="nav-item spodaj-border">
+                            <a class="nav-link " href="paket.xhtml"><i class="fa fa-gift fa-fw zamik-ikon " />Paketi</a>
+                        </li>
+
+
+                </ul>
+
+
+
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item spodaj-border">
+                        <a class="nav-link " href="profil.xhtml"><i class="fa fa-users fa-fw zamik-ikon " />Profil</a>
+                    </li>
+                    <li class="nav-item spodaj-border">
+                        <a class="nav-link " href="iskanje.xhtml"><i class="fa fa-search fa-fw zamik-ikon" />Iskanje</a>
+                    </li>
+                    <li class="nav-item spodaj-border">
+                        <a class="nav-link " href="index.xhtml"><i class="fa fa-home fa-fw zamik-ikon" />Index</a>
+                    </li>
+                </ul>
+
+
+            </nav>
+
+            <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+                <h1>Seznam mojih izdelkov</h1>
+                <section class="row text-center placeholders">
+                    <c:forEach var="p" items="#{produktBean.pridobitevVseh(uporabnikBean.idVpisanegaUporabnika)}">
+                        <div class="col-6 col-sm-4 col-md-4">
+                            <div class="card">
+                                <div class="card-block text-center" style="padding: 0.75rem">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <img alt="#{p.kategorija}" src="resources/img/#{p.kategorija}.png"
+                                                     style="max-height: 50px; margin-bottom: 5px"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <h5 class="card-title" style="margin-bottom: 0em; color: #2c333b">#{p.naziv}</h5>
+                                                <small style="font-style: italic; color: #7a8ca0">#{p.opis}</small><br />
+                                                <h:form style="display: inline">
+                                                <span class="badge badge-pill badge-success">#{p.cena} € / KG</span>
+                                                <span class="badge badge-pill badge-primary">Na voljo: #{p.kolicina} kg</span>
+
+                                                <h:commandLink styleClass="badge badge-pill badge-danger" value="Odstrani"
+                                                                 style="display: inline-block" id="odstraniProduktGumb" action="#{produktBean.odstraniProdukt(p.id)}"/>
+                                                </h:form>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+
+                </section>
+                <h:commandButton styleClass="badge badge-pill badge-danger" value="Odstrani"
+                                 id="odstraniProduktGumb2" />
+            </main>
+        </div>
+    </div>
+
+
+    <!-- JQuery preko Google Apis -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous" ></script>
+
+    <!-- Bootstrap skrite -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous" ></script>
+
+    <!-- Skripte po meri -->
+    <h:outputScript name="js/ie10-viewport-bug-workaround.js" />
+
+</h:body>
+</html>

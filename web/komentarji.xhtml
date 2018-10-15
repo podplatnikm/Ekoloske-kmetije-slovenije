@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta name="author" content="Praktikum 2 skupina 05" />
+
+    <title>Registracija ponudnika</title>
+
+    <!-- Bootstrap core-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css" />
+
+    <!-- Stili po meri -->
+    <link rel="stylesheet" href="resources/css/dashboard.css" />
+
+    <!-- Fonti/Pisave -->
+    <link href="css/fonts/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</h:head>
+<body>
+<f:view>
+    <f:metadata>
+        <f:viewParam name="id" value="#{uporabnikBean.idIzbraneKmetije}"></f:viewParam>
+    </f:metadata>
+    <f:event type="preRenderView" listener="#{uporabnikBean.pridobiKmetijo}" />
+    <f:event type="preRenderView" listener="#{komentarBean.pridobiUporabnika(uporabnikBean.idVpisanegaUporabnika)}" />
+    <f:event type="preRenderView" listener="#{komentarBean.pridobiKomentarje(uporabnikBean.idIzbraneKmetije)}" />
+
+
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse" >
+    <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="domov.xhtml" ><img src="http://i.imgur.com/rtvChJa.png" alt="logo" style="max-height: 2em"  /></a>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <!--
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            -->
+        </ul>
+        <form class="form-inline mt-2 mt-md-0" action="izpis">
+
+            <a href="izpis" id="odjava" class="fa-lg" style="margin-left: 3em"><i class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true"></i>Odjava</a>
+        </form>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <main class="col-lg-8 offset-lg-2 text-center pt-3">
+            <h1 id="naslov-naslov">MNENJA ZA PONUDNIKA: #{uporabnikBean.izbranaKmetija.naziv}</h1>
+        </main>
+    </div>
+</div><br/>
+    <section id="komentarji">
+        <div class="container">
+            <div class="row">
+                <c:forEach items="#{komentarBean.komentarji}" var="komentar" varStatus="status">
+                    <div class="col-lg-10 offset-lg-1">
+                        <div class="card w-100 card-outline-success" style="padding: 0.3em">
+                            <div class="card-header text-center" style="padding: 0.2em;">
+                                <h3 class="center"><c:forEach begin="1" end="#{komentar.ocena}">★</c:forEach></h3>
+                            </div>
+                            <div class="card-block" style="padding: 0.9em;">
+                                <h4 class="card-text text-center">#{komentar.komentar}</h4>
+                            </div>
+                        </div><br/>
+                    </div>
+               </c:forEach>
+            </div>
+        </div>
+    </section><br/>
+    <div class="container">
+        <div class="text-center" >
+            <a href="kontakt.xhtml" class="btn btn-primary btn-lg">Nazaj na stran ponudnika</a>
+        </div>
+    </div>
+
+
+</f:view>
+</body>
+</html>

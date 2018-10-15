@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta name="author" content="Praktikum 2 skupina 05" />
+
+    <title>Registracija uporabnika</title>
+
+    <!-- Bootstrap core-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css" />
+
+    <!-- Stili po meri -->
+    <link rel="stylesheet" href="resources/css/dashboard.css" />
+
+    <!-- Fonti/Pisave -->
+    <link href="css/fonts/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</h:head>
+
+<h:body>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse" >
+        <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="index.html" ><img src="http://i.imgur.com/rtvChJa.png" alt="logo" style="max-height: 2em"  /></a>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <!--
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                -->
+            </ul>
+            <form class="form-inline mt-2 mt-md-0" action="izpis">
+
+                <a href="izpis" id="odjava" class="fa-lg" style="margin-left: 3em"><i class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true"></i>Odjava</a>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <main class="col-lg-8 offset-lg-2 text-center pt-3">
+
+                <h1 id="naslov-naslov">REGISTRACIJA UPORABNIKA/KUPCA</h1>
+
+                <section class="row text-center placeholders">
+                    <div class="col-6 col-sm-6 col-md-12 text-center">
+                        <div class="col-md-10 offset-md-1">
+                            <h:form>
+                                <div class="form-group">
+                                    <label for="telefon">Telefon*</label>
+                                    <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-mobile" aria-hidden="true" /></div>
+                                    <h:inputText id="telefon" vvalue="#{uporabnikBean.novUporabnik.telefonskaStevilka}"
+                                                 validatorMessage="Pravilno vnesi telefonsko številko!" styleClass="form-control" aria-describedby="helpNaziv"
+                                                 >
+                                        <f:validateRequired/>
+                                        <f:validateRegex
+                                                pattern="(?:[+])?[0-9]+(?:[ /.,|-]?[(]?[ 0-9][)]?)+" />
+                                    </h:inputText>
+                                    <h:message styleClass="span3" for="telefon" style="color:red"/>
+                                </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="naslov">Dostavni naslov*</label>
+                                    <h:inputText id="naslov" value="#{uporabnikBean.novUporabnik.naslov}"
+                                                 validatorMessage="Vnesi naslov!" styleClass="form-control" aria-describedby="helpNaslov">
+                                        <f:validateRequired/>
+                                    </h:inputText>
+                                    <h:message styleClass="span3" for="naslov" style="color:red"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="posta">Postna stevilka*</label>
+                                    <h:inputText id="posta" value="#{uporabnikBean.novUporabnik.posta}"
+                                                 converterMessage="Pravilno vnesi poštno številko!"
+                                                 maxlength="4" styleClass="form-control" aria-describedby="helpPosta">
+                                        <f:validateRequired/>
+                                    </h:inputText>
+                                    <h:message styleClass="span3" for="posta" style="color:red"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="kraj">Kraj*</label>
+                                    <h:inputText id="kraj" value="#{uporabnikBean.novUporabnik.kraj}"
+                                                 validatorMessage="Vnesi kraj!" styleClass="form-control" aria-describedby="helpKraj">
+                                        <f:validateRequired/>
+                                    </h:inputText>
+                                    <h:message styleClass="span3" for="kraj" style="color:red"/>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <h:commandButton styleClass="btn btn-success btn-lg " action="iskanje.xhtml"
+                                                     actionListener="#{uporabnikBean.shraniKmetijo}" value="Zakljuci zadevo" style="cursor: pointer"/>
+                                    <p>
+                                        * - obvezni atributi
+                                    </p>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+
+    <!-- JQuery preko Google Apis -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous" />
+
+    <!-- Bootstrap skrite -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous" />
+
+    <!-- Skripte po meri -->
+    <h:outputScript name="js/ie10-viewport-bug-workaround.js" />
+</h:body>
+</html>

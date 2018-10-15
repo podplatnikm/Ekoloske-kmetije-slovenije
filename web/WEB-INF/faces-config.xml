@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+    http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+
+    <managed-bean>
+        <managed-bean-name>uporabnikBean</managed-bean-name>
+        <managed-bean-class>si.um.feri.uporabnik.UporabnikBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>produktBean</managed-bean-name>
+        <managed-bean-class>si.um.feri.produkt.ProduktBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>paketBean</managed-bean-name>
+        <managed-bean-class>si.um.feri.paket.PaketBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>iskanje</managed-bean-name>
+        <managed-bean-class>si.um.feri.poslusalci.Iskanje</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+
+    <converter>
+        <converter-id>nizOznakConverter</converter-id>
+        <converter-class>si.um.feri.poslusalci.NizOznakConverter</converter-class>
+    </converter>
+
+</faces-config>

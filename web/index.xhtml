@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <title>Ekološke Kmetije Slovenije - predstavitev</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta name="author" content= "Praktikum 2 skupina 05" />
+
+    <!-- Bootstrap core -->
+    <h:outputStylesheet name="css/bootstrap.css" />
+
+    <!-- Stili po meri -->
+    <h:outputStylesheet name="css/stili-za-vpis.css" />
+
+    <!-- Fonti/Pisave -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+        <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 500px;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        </style>
+</h:head>
+<h:body>
+
+        <f:view>
+            <f:event type="preRenderView" listener="#{uporabnikBean.pridobiZaMapo}" />
+        </f:view>
+
+    <!-- Zacetek # Navigacija -->
+    <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars" /> </a>
+
+    <nav id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times" /></a>
+            <li class="sidebar-brand">
+                <a href="#top" onclick='$("#menu-close").click();'>Intro</a>
+            </li>
+            <li class="sidebar-brand">
+                <a href="#about" onclick='$("#menu-close").click();'>O nam</a>
+            </li>
+            <li class="sidebar-brand">
+                <a href="#services" onclick='$("#menu-close").click();'>Storitve</a>
+            </li>
+            <li class="sidebar-brand">
+                <a href="#contact" onclick='$("#menu-close").click();'>Zemljevid ponudnikov</a>
+            </li>
+            <c:if test="#{uporabnikBean.naravnaDomacaStran != '#'}">
+            <li class="sidebar-brand">
+                <a href="izpis" onclick='$("#menu-close").click();'>Odjava</a>
+            </li>
+            </c:if>
+        </ul>
+    </nav>
+
+    <!-- Konec | Navigacija -->
+
+    <!-- Zacetek # Header -->
+    <header id="top" class="header">
+
+            <div class="text-vertical-center">
+
+                <img src="http://i.imgur.com/I9mY8rT.png" alt="logo" style="height: 4em" />
+                <h1 id="po-meri-h1">Dobri izdelki dobrih ljudi</h1>
+                <h3>Platforma za trženje ekoloških izdelkov</h3>
+                <br />
+                <hr class="small" style="border-color: #0f0f0f" />
+                <c:if test="#{uporabnikBean.naravnaDomacaStran == '#'}" >
+                    <a href="#" class="btn btn-success btn-lg" role="button" data-toggle="modal" data-target="#login-modal">Začni nakupovati</a>
+                </c:if>
+                <c:if test="#{uporabnikBean.naravnaDomacaStran == 'iskanje.xhtml'}" >
+                    <a href="iskanje.xhtml?faces-redirect=true" class="btn btn-success btn-lg" >Začni nakupovati</a>
+                </c:if>
+                <c:if test="#{uporabnikBean.naravnaDomacaStran == 'vnos-izdelkov.xhtml'}" >
+                    <a href="vnos-izdelkov.xhtml?faces-redirect=true" class="btn btn-success btn-lg" >Začni nakupovati</a>
+                </c:if>
+
+
+                <a href="iskanje.xhtml" class="btn btn-dark btn-lg">Preglej ponudbo</a>
+            </div>
+
+    </header>
+    <!-- Konec | Header -->
+
+    <!-- Zacetek # O nam -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Ekološke Kmetije Slovenije</h2>
+                    <p class="lead">EKS je spletna aplikacija za trgovanje z ekološkimi izdelki naših ponudkinov, razvita na
+                        <a href="https://www.um.si/Strani/default.aspx"> UM </a><a href="https://feri.um.si/">FERI</a>.</p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- Konec | O nam -->
+
+    <!-- Zacetek # Nasi proizvodi -->
+    <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
+    <section id="services" class="services bg-success">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h2>Nov svež način dostopa do kvalitetnih produktov </h2>
+                    <hr class="small" />
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4">
+                            <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                    <img src="resources/img/tree_112x112s.png" class="img-responsive"/>
+                                </span>
+                                <h4>
+                                    <strong>Podpiraj lokalno</strong>
+                                </h4>
+                                <p>Z vsakim nakupom investirate v lokalne ponudnike, ki vam zagotavljajo najbolj sveže produkte</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                    <img src="resources/img/house_112x112s.png" class="img-responsive"/>
+                                </span>
+                                <h4>
+                                    <strong>Naročilna storitev</strong>
+                                </h4>
+                                <p>Mesečna dostava na dom izbranih zabojev naših ponudnikov.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <div class="service-item">
+                                <span class="fa-stack fa-4x">
+                                   <img src="resources/img/lamp_112x112s.png" class="img-responsive"/>
+                                </span>
+                                <h4>
+                                    <strong>Potrditvena(zelena) energija</strong>
+                                </h4>
+                                <p>Skozi partnerstvo s ponudniki kreiramo načine za predelavo zavrženih delov</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.row (nested) -->
+                </div>
+                <!-- /.col-lg-10 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+    <!-- Konec | Nasi proizvodi -->
+
+
+    <!-- Zacetek # nedoloceno se -->
+    <!--
+    <aside class="call-to-action bg-info">
+        <div class="container">
+            <div class="row">
+                TU SE PRIDE
+            </div>
+        </div>
+    </aside>-->
+    <!-- Konec | nedoloceno se -->
+
+    <!-- Zacetek # Klemzotova mapa-->
+    <section id="contact" class="map">
+        <div id="map"></div>
+    </section>
+    <!-- Konec | Klemzotva mapa-->
+
+    <!-- Zacetek # Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1 text-center">
+                    <h4><strong>EKOLOSKE KMETIJE SLOVENIJE</strong>
+                    </h4>
+                    <p>Fakulteta za elektrotehniko, računalništvo in informatiko v Mariboru
+                        <br />Smetanova ulica 17, 2000 Maribor</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-phone fa-fw"></i>  (02) 220 70 00</li>
+                        <li><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:info.ekslovenija@gmail.com">info.ekslovenija@gmail.com</a>
+                        </li>
+                    </ul>
+                    <br />
+                    <hr class="small" />
+                    <p class="text-muted">Pravice Skupina 05, praktikum 2</p>
+                </div>
+            </div>
+        </div>
+        <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
+    </footer>
+    <!-- Konec | Footer -->
+
+    <!-- Zacetek # Modul: Vpis (Login)
+    <div class="row">
+        <p class="text-center"><a href="#" class="btn btn-success btn-lg" role="button" data-toggle="modal" data-target="#login-modal">Začni tukaj</a>
+        </p>
+    </div>-->
+    <ui:include src="WEB-INF/template/vpisModul.xhtml" />
+    <f:event type="preRenderView" listener="#{uporabnikBean.pripraviUporabnikaZaVpis}" />
+    <!--Konec | Moduk: Vpis (Login) -->
+
+   <!-- JQuery preko Google Apis -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"  type="text/javascript"></script>
+
+    <!-- Bootstrap skrite -->
+    <h:outputScript name="js/bootstrap.js" />
+
+    <!-- Skripte po meri -->
+    <h:outputScript name="js/skripta-za-vpis.js" />
+    <script type="text/javascript">
+
+        // Closes the sidebar menu
+        $("#menu-close").click(function(e) {
+            e.preventDefault();
+            $("#sidebar-wrapper").toggleClass("active");
+        });
+        // Opens the sidebar menu
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#sidebar-wrapper").toggleClass("active");
+        });
+        // Scrolls to the selected menu item on the page
+        $(function() {
+            $('a[href*=#]:not([href=#],[data-toggle],[data-target],[data-slide])').click(function() {
+                if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+                        return false;
+                    }
+                }
+            });
+        });
+        //#to-top button appears after scrolling
+        var fixed = false;
+        $(document).scroll(function() {
+            if ($(this).scrollTop() > 250) {
+                if (!fixed) {
+                    fixed = true;
+                    // $('#to-top').css({position:'fixed', display:'block'});
+                    $('#to-top').show("slow", function() {
+                        $('#to-top').css({
+                            position: 'fixed',
+                            display: 'block'
+                        });
+                    });
+                }
+            } else {
+                if (fixed) {
+                    fixed = false;
+                    $('#to-top').hide("slow", function() {
+                        $('#to-top').css({
+                            display: 'none'
+                        });
+                    });
+                }
+            }
+        });
+        // Disable Google Maps scrolling
+        // See http://stackoverflow.com/a/25904582/1607849
+        // Disable scroll zooming and bind back the click event
+        var onMapMouseleaveHandler = function(event) {
+            var that = $(this);
+            that.on('click', onMapClickHandler);
+            that.off('mouseleave', onMapMouseleaveHandler);
+            that.getElementById('map').css("pointer-events", "none");
+            //that.find('iframe').css("pointer-events", "none");
+        }
+        var onMapClickHandler = function(event) {
+            var that = $(this);
+            // Disable the click handler until the user leaves the map area
+            that.off('click', onMapClickHandler);
+            // Enable scrolling zoom
+            that.getElementById('map').css("pointer-events", "auto");
+            // Handle the mouse leave event
+            that.on('mouseleave', onMapMouseleaveHandler);
+        }
+        // Enable map zooming with mouse scroll when the user clicks the map
+        $('#map').on('click', onMapClickHandler);
+    </script>
+    <script>
+
+        //Pridobitev naslovov, nazivov in id-jev ter pretvorba v polje
+        var nasloviBean="#{uporabnikBean.naslovi}";
+        var naziviBean="#{uporabnikBean.nazivi}";
+        var idjiBean="#{uporabnikBean.idji}";
+        var krajiBean="#{uporabnikBean.kraji}";
+        var naslovi = nasloviBean.split(",");
+        var nazivi = naziviBean.split(",");
+        var idji = idjiBean.split(",");
+        var kraji = krajiBean.split(",");
+        naslovi[0]=naslovi[0].replace('[', '');
+        naslovi[naslovi.length-1]=naslovi[naslovi.length-1].replace(']', '');
+        nazivi[0]=nazivi[0].replace('[', '');
+        nazivi[nazivi.length-1]=nazivi[nazivi.length-1].replace(']', '');
+        idji[0]=idji[0].replace('[', '');
+        idji[idji.length-1]=idji[idji.length-1].replace(']', '');
+        kraji[0]=kraji[0].replace('[', '');
+        kraji[kraji.length-1]=kraji[kraji.length-1].replace(']', '');
+
+        var locations = new Array(naslovi.length);
+        for(var a=0; naslovi.length > a; a++){
+            locations[a] = new Array(3);
+        }
+        for(var k=0; naslovi.length > k; k++){
+            locations[k][0]=nazivi[k];
+            locations[k][1]=naslovi[k]+", "+kraji[k];
+            locations[k][2]=idji[k];
+        }
+
+
+
+        var map;
+        var infoWindow;
+        var geocoder;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: -34.397, lng: 150.644},
+                zoom: 14,
+                scrollwheel: false
+            });
+            geocoder=new google.maps.Geocoder();
+
+            for(i=0; locations.length>i; i++){
+                geocodeAddress(locations, i);
+            }
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    map.setCenter(pos);
+                }, function() {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+
+        function geocodeAddress(locations, i){
+            var title=locations[i][0];
+            var address=locations[i][1];
+            var url=locations[i][2];
+            geocoder.geocode({
+                'address': locations[i][1]
+            },
+
+            function (results, status){
+                if(status==google.maps.GeocoderStatus.OK){
+                    var marker = new google.maps.Marker({
+                        icon: 'http://maps.google.com/mapfiles/kml/pal2/icon4.png',
+                        map: map,
+                        position: results[0].geometry.location,
+                        title: title,
+                        address: address,
+                        url: url
+                    })
+                    infoWindow(marker, map, title, address, url);
+                } else{
+                    console.log("Prišlo je do napake.");
+                }
+            });
+        }
+
+        function infoWindow(marker, map, title, address, url){
+            google.maps.event.addListener(marker, 'click', function(){
+                //language=HTML
+                var html= '<b><h2><a href="kontakt.xhtml?id='+url+'">'+ title +'</a></h2></b><br></br>';
+                iw=new google.maps.InfoWindow({
+                    content: html,
+                    maxWidth: 350
+                });
+                iw.open(map, marker);
+            });
+        }
+
+        function createMarker(results){
+            var marker = new google.maps.Marker({
+                icon: 'http://maps.google.com/mapfiles/kml/pal2/icon4.png',
+                map: map,
+                position: positions[0].geometry.location,
+                title: title,
+                address: address,
+                url: url
+            })
+            infoWindow(marker, map, title, address, url);
+            return marker;
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                'Napaka: Prišlo je do napake pri iskanju lokacije' :
+                'Napaka: Imate onemogočeno lokacijo.');
+            infoWindow.open(map);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByLr-aHHpzagMEby3tumeCcWetol67XnI&amp;callback=initMap" async="" defer=""></script>
+</h:body>
+</html>

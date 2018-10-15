@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700,900');
+
+
+#iskalnik{
+    background-color: #449d44;
+    height: 400px;
+    max-height: 400px;
+}
+
+body {
+    min-height: 75rem; /* Can be removed; just added for demo purposes */
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.jumbotron {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    margin-bottom: 0;
+    background: url(http://i.imgur.com/PZPfUMD.jpg) no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+.jumbotron p:last-child {
+    margin-bottom: 0;
+}
+
+.jumbotron-heading {
+    font-weight: 300;
+}
+
+.jumbotron .container {
+    max-width: 40rem;
+}
+
+.album {
+    min-height: 50rem; /* Can be removed; just added for demo purposes */
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    background-color: #f7f7f7;
+}
+
+/*.card {
+    float: left;
+    width: 100%;
+    padding: .75rem;
+    margin-bottom: 2rem;
+    border: 0;
+}
+
+.card > img {
+    margin-bottom: .75rem;
+}
+
+.card-text {
+    font-size: 85%;
+}*/
+
+footer {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+footer p {
+    margin-bottom: .25rem;
+}
+
+#custom-search-input{
+    padding: 3px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+}
+
+#custom-search-input button{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+    font-size: 23px;
+}
+
+#naslov{
+    color: #ffffff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 900;
+}
+
+#podnaslov{
+    color: #ffffff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+}

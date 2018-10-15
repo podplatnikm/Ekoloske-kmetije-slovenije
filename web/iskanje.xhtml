@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui"
+      lang="en">
+
+<h:head>
+    <title>Iskanje - EK Slovenije</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <meta name="author" content="Praktikum 2 skupina 05"/>
+
+    <!-- Bootstrap core-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css"/>
+
+    <!-- Stili po meri -->
+    <h:outputStylesheet name="css/stili-za-iskalnik.css"/>
+    <h:outputStylesheet name="css/stili-za-dinamicni-nav.css"/>
+
+
+    <!-- Fonti/Pisave -->
+    <link href="css/fonts/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"/>
+
+    <!-- Dropdown -->
+    <link href="resources/css/kosarica/kosarica.css" rel="stylesheet"/>
+
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        .navbar-toggler {
+            z-index: 1;
+        }
+
+        @media (max-width: 576px) {
+            nav > .container {
+                width: 100%;
+            }
+        }
+    </style>
+</h:head>
+
+<h:body>
+
+    <c:if test="#{uporabnikBean.naravnaDomacaStran == 'iskanje.xhtml'}">
+        <!-- Navigation -->
+        <nav class="navbar fixed-top navbar-toggleable-md navbar-light" id="mainNav">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                    data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                Menu <i class="fa fa-bars"></i>
+            </button>
+            <div class="container">
+                <div class="collapse navbar-collapse" id="navbarExample">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <div class="KOSARICA">
+                                <div class="dropdown1">
+                                    <a href="kosarica.xhtml">
+                                        <i class="fa fa-shopping-basket fa-lg fa-fw fa-inverse"
+                                           aria-hidden="true"></i>
+                                    </a>
+                                    <h:form id="kosaricaForma">
+                                        <div class="dropdown-content1">
+                                            <p:panel id="kosaricaIzpis">
+                                                <c:if test="#{kosarica.kosarica.size() > 0}"><!--
+                                                            <h:outputText
+                                                                    value="Št. produktov = #{kosarica.kosarica.size()}" style="font-size: xx-small" />-->
+                                                    <p style="font-size: x-small">Produkti:</p>
+                                                    <table>
+                                                        <c:forEach items="#{kosarica.kosarica}" var="produkt">
+                                                            <tr>
+                                                                <td><h:outputText
+                                                                        value="  - ${produkt.naziv}   "
+                                                                        style="font-size: xx-small"/>
+                                                                </td>
+                                                                <td><p:commandButton
+                                                                        actionListener="#{kosarica.odstraniProdukt(produkt)}"
+                                                                        value="x"
+                                                                        style="font-size: xx-small"/>
+                                                                </td>
+                                                            </tr>
+                                                        </c:forEach>
+                                                    </table>
+                                                </c:if>
+                                                <c:if test="#{kosarica.kosarica.size() == 0}">
+                                                    <p style="font-size: x-small">Košarica je prazna!</p>
+                                                </c:if>
+                                            </p:panel>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+
+                        </li>
+                        <li class="nav-item">
+
+                            <div class="dropdown1">
+                                <i id="dropbtn2" class="fa fa-star fa-lg fa-fw fa-inverse" aria-hidden="true"></i>
+                                <f:event type="preRenderView"
+                                         listener="#{uporabnikBean.pridobiPriljubljene(uporabnikBean.idVpisanegaUporabnika)}"/>
+
+                                <h:form id="priljubljeniForma">
+                                    <div class="dropdown-content1">
+                                        <p:panel id="priljubljeniIzpis">
+                                            <c:if test="#{uporabnikBean.priljubljeneKmetije.size() > 0}" >
+                                                <p style="font-size: x-small">Priljubljene:</p>
+                                                <table>
+                                                <ui:repeat value="#{uporabnikBean.priljubljeneKmetije}" var="p">
+                                                    <tr>
+                                                        <td>
+                                                            <h:link id="priljubljene" outcome="kontakt" value="- #{p.naziv}" style="font-size: xx-small"> <br/>
+                                                            <f:param name="id" value="#{p.id}"></f:param>
+                                                        </h:link>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                                </table>
+                                            </c:if>
+                                            <c:if test="#{uporabnikBean.priljubljeneKmetije.size() == 0}" >
+                                                <p style="font-size: x-small">Ni priljubljenih!</p>
+                                            </c:if>
+                                        </p:panel>
+                                    </div>
+                                </h:form>
+
+                            </div>
+
+                        </li>
+                        <li class="nav-item">
+
+                            <div class="dropdown1">
+                                <i class="fa fa-gift fa-lg fa-fw fa-inverse" aria-hidden="true"></i>
+                                <f:event type="preRenderView"
+                                         listener="#{paketBean.pridobiPakete(uporabnikBean.idVpisanegaUporabnika)}"/>
+
+                                <h:form id="paketForma">
+                                    <div class="dropdown-content1">
+                                        <p:panel id="paketIzpis">
+                                            <c:if test="#{paketBean.paketi.size() > 0}" >
+                                                <p style="font-size: x-small">Paketi:</p>
+                                                <table>
+                                                    <ui:repeat value="#{paketBean.paketi}" var="p">
+                                                        <h:link id="paketi" outcome="kontakt" value="#{p.naziv}" style="font-size: xx-small" > <br/>
+                                                            <f:param name="id" value="#{paketBean.pridobiKmetijo(p.id)}"></f:param>
+                                                        </h:link>
+                                                    </ui:repeat>
+                                                </table>
+                                            </c:if>
+                                            <c:if test="#{paketBean.paketi.size() == 0}" >
+                                                <p style="font-size: x-small">Niste naročeni na pakete!</p>
+                                            </c:if>
+                                        </p:panel>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a href="izpis" style="color: white" class="fa-lg"><i
+                                    class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true"></i>Odjava</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </c:if>
+
+    <c:if test="#{uporabnikBean.naravnaDomacaStran == 'vnos-izdelkov.xhtml'}">
+        <!-- Navigation -->
+        <nav class="navbar fixed-top navbar-toggleable-md navbar-light" id="mainNav">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
+                Menu <i class="fa fa-bars"></i>
+            </button>
+            <div class="container">
+                <div class="collapse navbar-collapse" id="navbarExample">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="vnos-izdelkov.xhtml" style="color: white" class="fa-lg"><i class="fa fa fa-dashboard fa-lg fa-fw fa-inverse" aria-hidden="true" />Panel</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="izpis" style="color: white" class="fa-lg"><i class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true" />Odjava</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </c:if>
+
+
+    <section class="jumbotron text-center">
+        <div class="container">
+            <img src="http://i.imgur.com/X1NKcYX.png" alt="logo" style="max-height: 3em"/>
+            <h1 id="naslov">EKOLOŠKE KMETIJE SLOVENIJE</h1>
+            <p id="podnaslov">Skozi iskalnik brskate po produktov nasih ponudnikov. <a
+                    style="color: #dedede; text-decoration: underline" href="index.xhtml#about">poglej več</a></p>
+            <br/>
+            <hr class="small" style="border-color: #ffffff; max-width: 50%"/>
+            <h:form>
+                <div id="custom-search-input">
+                    <div class="input-group col-md-12">
+                        <h:inputText value="#{iskanje.iskalniNiz}" styleClass="form-control form-control-lg input-lg"
+                                     a:placeholder="Prebrskaj nabor produktov..." binding="#{vnos1}"/>
+
+                        <span class="input-group-btn">
+                            <h:commandLink id="btnsearch"
+                                           action="#{iskanje.isci}"
+                                           styleClass="btn btn-secondary btn-lg">
+                                <i class="fa fa-search"></i>
+                            </h:commandLink>
+                    </span>
+                    </div>
+                </div>
+            </h:form>
+            <br/>
+            <h6 style="color: #FFFFFF">Isci kategorijo: </h6>
+            <h:form id="list-kategorij">
+                <h:commandLink id="sadje" action="#{iskanje.isciKategorijo('sadje')}" value="Sadje"
+                               styleClass="badge badge-success" style="margin: 0em 1em"/>
+
+                <h:commandLink id="zelenjava" action="#{iskanje.isciKategorijo('zelenjava')}" value="Zelenjava"
+                               styleClass="badge badge-success" style="margin: 0em 1em"/>
+
+                <h:commandLink id="meso" action="#{iskanje.isciKategorijo('meso')}" value="Meso"
+                               styleClass="badge badge-success" style="margin: 0em 1em"/>
+
+                <h:commandLink id="alkohol" action="#{iskanje.isciKategorijo('alkohol')}" value="Alkohol"
+                               styleClass="badge badge-success" style="margin: 0em 1em"/>
+
+                <br/>
+                <h:commandLink id="sladko" action="#{iskanje.isciKategorijo('sladko')}" value="Sladkarije in maščobe"
+                               styleClass="badge badge-success" style="margin: 0em 1em"/>
+
+                <h:commandLink id="zitarice" action="#{iskanje.isciKategorijo('zitarice')}"
+                               value="Žitarice, oreščki in semena" styleClass="badge badge-success"
+                               style="margin: 0em 1em"/>
+
+                <h:commandLink id="ostalo" action="#{iskanje.isciKategorijo('ostalo')}" value="Ostalo"
+                               styleClass="badge badge-success" style="margin: 0em 1em"/>
+            </h:form>
+        </div>
+    </section>
+
+    <section id="rezultati">
+        <div class="container">
+            <div class="row">
+                <c:if test="#{iskanje.statusIskanja == 0}">
+                    <div class="col-lg-10 offset-lg-1 text-center">
+                        <h4 style="font-style: italic">Niste še poizvedovali.</h4>
+                    </div>
+                </c:if>
+                <c:if test="#{iskanje.statusIskanja == 1}">
+                    <div class="col-lg-10 offset-lg-1 text-center">
+                        <h2>UPS, ne najdem rezultatov za: #{iskanje.iskalniNiz}, poslusite kategorije</h2>
+                    </div>
+                </c:if>
+                <c:if test="#{iskanje.statusIskanja == 2}">
+                    <c:if test="#{empty uporabnik}">
+                        <div class="col-lg-12 text-center">
+                        <h5><a href="index.xhtml">Za nakup se najprej vpišite.</a></h5>
+                        </div>
+                    </c:if>
+
+                    <c:forEach var="p" items="#{iskanje.rezultatIskanja}" varStatus="status">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                            <h:form id="seznamProduktov" style="width: 100%">
+                            <div class="card card-outline-success" style="margin-bottom: 1.25em">
+                                <div class="card-block text-center" style="padding: 0.75rem">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td style="vertical-align: middle">
+                                                <img alt="#{p.kategorija}" src="resources/img/#{p.kategorija}.png"
+                                                     style="max-height: 50px;"/>
+                                                <small>#{p.kategorija}</small>
+                                            </td>
+                                            <td class="text-center" style="width: 100%">
+                                                <h5 class="card-title" style="margin-bottom: 0em; color: #2c333b">#{p.naziv}</h5>
+                                                <small style=" color: #5c6979; font-size: medium; font-style: italic">#{p.opis}</small><br />
+                                                <span style="display: inline">
+                                                    <span class="badge badge-primary">#{p.cena} € / KG</span>
+                                                    <span class="badge badge-primary">Na voljo: #{p.kolicina} kg</span>
+                                                </span>
+                                                <div>
+                                                    <a href="kontakt.xhtml?id=#{p.kmetija.id}"
+                                                       >Na stran ponudnika</a></div>
+
+                                                <div class="form-inline text-center" style="margin-left: 4em">
+                                                    <h:form styleClass="text-center" rendered="#{uporabnikBean.pridobiPoId(uporabnikBean.idVpisanegaUporabnika).tip == 1}">
+                                                        <h:form id="form2" styleClass="form-inline form-group text-center">
+                                                            Količina v kg:
+                                                            <h:inputText id="kolicina"
+                                                                         value="#{kosarica.kolicina}"
+                                                                         required="true"
+                                                                         validatorMessage="Vnesi stevilo!"
+                                                            style="max-width: 5em"
+                                                            styleClass="form-control form-control-sm mb-2 mr-sm-2 mb-sm-0">
+                                                                <f:validateRequired/>
+                                                                <h:message for="kolicina" style="color:red"/>
+                                                            </h:inputText>
+                                                        </h:form>
+
+                                                        <h:commandButton id="dodajVKosarico" styleClass="btn btn-success btn-sm"
+                                                                         action="#{kosarica.dodajProdukt(p)}"
+                                                                         value="Dodaj v košarico" />
+                                                    </h:form>
+                                                </div>
+                                                <small><span class="badge badge-pill badge-default">#{p.formatirajZnacke()}</span></small>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            </h:form>
+                        </div>
+                    </c:forEach>
+                </c:if>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- JQuery preko Google Apis -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+            integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+            crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+            integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+            crossorigin="anonymous"/>
+
+    <!-- Bootstrap skrite -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+            integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+            crossorigin="anonymous"/>
+
+    <!-- Skripte po meri -->
+    <script src="resources/js/skripta-za-dinamicni-nav.js" type="text/javascript"></script>
+</h:body>
+</html>

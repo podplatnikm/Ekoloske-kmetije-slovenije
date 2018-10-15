@@ -1,0 +1,58 @@
+
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!-- BEGIN # MODAL LOGIN -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" align="center">
+                    <img id="img_logo" src="resources/img/logo_def.png" style="max-height: 3em" />
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times" aria-hidden="true" />
+                    </button>
+                </div>
+
+                <!-- Begin # DIV Form -->
+                <div id="div-forms">
+
+                    <!-- Begin # Login Form -->
+                        <div class="modal-body">
+                            <div id="div-login-msg">
+                                <div id="icon-login-msg" class="fa fa-chevron-right"></div>
+                                <span id="text-login-msg">Vpis preko 3rd party medijev: </span>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <div class="text-center">
+                                <form id="login-form-google" name="google-vpis" action="googleplusVpis" method="get" >
+                                <button type="submit" class="loginBtn loginBtn--google">Nadaljuj z Google+ </button>
+                                </form>
+                            </div>
+                            <br />
+                            <div class="text-center">
+                                <form id="login-form-facebook" name="facebook-vpis" action="facebookVpis" method="get" >
+                                    <button type="submit" class="loginBtn loginBtn--facebook">Nadaljuj s Facebook</button>
+                                </form>
+                            </div>
+
+                            <div>
+                                <a href="iskanje.xhtml" id="brskanje-kot-gost"  class="btn btn-link">Ponudbo zelim prebrskati kot gost </a>
+                            </div>
+                        </div>
+
+                    <!-- End # Login Form -->
+
+
+                </div>
+                <!-- End # DIV Form -->
+
+            </div>
+        </div>
+    </div>
+    <!-- END # MODAL LOGIN -->
+</ui:composition>

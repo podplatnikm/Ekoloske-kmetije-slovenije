@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough" xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta name="author" content="Praktikum 2 skupina 05" />
+
+    <title>Kosarica - kupec</title>
+
+    <!-- Bootstrap core-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css" />
+
+    <!-- Stili po meri -->
+    <link rel="stylesheet" href="resources/css/dashboard.css" />
+    <link rel="stylesheet" href="resources/css/stili-za-kosarico.css" />
+    <link rel="stylesheet" href="resources/css/kosarica/kosarica.css" />
+
+    <!-- Fonti/Pisave -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</h:head>
+
+<h:body>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse" >
+        <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="index.xhtml" ><img src="http://i.imgur.com/rtvChJa.png" alt="logo" style="max-height: 2em"  /></a>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <!--
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                -->
+            </ul>
+            <c:if test="#{not empty uporabnik}">
+                <form class="form-inline mt-2 mt-md-0" action="izpis">
+
+                    <a href="izpis" id="odjava" class="fa-lg" style="margin-left: 3em"><i class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true"></i>Odjava</a>
+                </form>
+            </c:if>
+        </div>
+    </nav>
+
+    <div class="jumbotron jumbotron-fluid" style="background-color: white; padding: 5rem 2rem 14rem 2rem">
+        <div class="container text-center">
+            <main class="col-lg-10 offset-lg-1 pt-3">
+
+                <c:if test="#{kosarica.kosarica.size() > 0}">
+
+                        <c:forEach items="#{kosarica.mapKosarica}" var="idKmetije">
+                            <div class="col-md-12">
+                            <h4>Ponudnik: #{idKmetije.key}</h4>
+                            <p:growl id="msg"/>
+                            <table class="table table-hover table-sm">
+                                <thead class="thead-inverse">
+                                <tr>
+                                    <th class="text-center">naziv artikla</th>
+                                    <th class="text-center">cena</th>
+                                    <th class="text-center">količina</th>
+                                    <th class="text-center">odstranitev produkta</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="#{idKmetije.value}" var="produkt">
+                                    <tr>
+                                        <td>#{produkt.naziv}</td>
+                                        <td>#{produkt.cena} €/kg</td>
+                                        <td>#{kosarica.mapKolicin.get(produkt)} kg</td>
+
+                                        <td><h:form><h:commandLink actionListener="#{kosarica.odstraniProdukt(produkt)}"
+                                                             styleClass="badge badge-pill badge-danger" value="Odstrani"
+                                                             action="kosarica.xhtml" style="display: inline-block"/></h:form></td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                            <h7><span style="font-style: italic"> Cena produktov za</span> #{idKmetije.key}= <span class="btn btn-success btn-sm">#{kosarica.getCenaKmetije(idKmetije.key)} €</span></h7>
+                            </div>
+                            <hr class="small" style="border-color: #535353" /><br />
+                        </c:forEach>
+
+                    <div class="col-md-10 offset-md-1" >
+
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th class="text-center">naziv kmetije</th>
+                                <th class="text-center">cena izdelkov</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="#{kosarica.mapKosarica}" var="naziv">
+                                <tr>
+                                    <td>#{naziv.key}</td>
+                                    <td>#{kosarica.getCenaKmetije(naziv.key)} €</td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                        <h5>Skupni znesek: #{kosarica.skupnaCena} €</h5>
+                        <br />
+                            <div>
+                            <h:form>
+                                <h:commandButton styleClass="btn btn-warning btn-lg" value="Zakluči nakup"
+                                                 action="kosaricaZakljucek.xhtml" actionListener="#{kosarica.kupi(uporabnikBean.idVpisanegaUporabnika)}"/>
+                                <a href="iskanje.xhtml" class="btn btn-secondary btn-lg">Nazaj na iskanje</a>
+                            </h:form>
+                            </div><br />
+                            <p style="color: #2c333b">
+                                <small>*Izdelke prejmete po paketih (Vsaka kmetija svoj paket).</small>
+                            <br/>
+                                <small>*Plačilo se izvede ob prejemu paketov.</small>
+                            </p>
+
+                    </div>
+
+                </c:if>
+
+                <c:if test="#{kosarica.kosarica.size() == 0}">
+                    <i style="color: #c9302c; font-size: 4rem">:/</i>
+                    <div class="alert alert-danger" role="alert">
+                         <strong>No to pa je nerodno...</strong> Vaša košarica je prazna, prosimo dodajte izdelke
+                    </div>
+
+                    <a href="iskanje.xhtml" class="btn btn-secondary">Prebrskaj ponudbo</a>
+                </c:if>
+
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1 text-center">
+                    <h4><strong>EKOLOSKE KMETIJE SLOVENIJE</strong>
+                    </h4>
+                    <p>Fakulteta za elektrotehniko, računalništvo in informatiko v Mariboru
+                        <br />Smetanova ulica 17, 2000 Maribor</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-phone fa-fw"></i>  (02) 220 70 00</li>
+                        <li><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:info.ekslovenija@gmail.com" style="color: #292b2c">info.ekslovenija@gmail.com</a>
+                        </li>
+                    </ul>
+                    <br />
+                    <hr class="small" />
+                    <p class="text-muted">Pravice Skupina 05, praktikum 2</p>
+                </div>
+            </div>
+        </div>
+        <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
+    </footer>
+
+    <!-- JQuery preko Google Apis -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous" />
+
+    <!-- Bootstrap skrite -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous" />
+
+    <!-- Skripte po meri -->
+    <h:outputScript name="js/ie10-viewport-bug-workaround.js" />
+</h:body>
+</html>

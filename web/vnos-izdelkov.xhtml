@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta name="author" content="Praktikum 2 skupina 05" />
+
+    <title>Vnos izdelkov - Ponudnik</title>
+
+    <!-- Bootstrap core-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css" />
+
+    <!-- Stili po meri -->
+    <link rel="stylesheet" href="resources/css/dashboard.css" />
+    <h:outputStylesheet name="css/bootstrap-tagsinput.css" />
+
+
+    <!-- Fonti/Pisave -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</h:head>
+<h:body>
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse" >
+        <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon" />
+        </button>
+        <a class="navbar-brand" href="vnos-izdelkov.xhtml" ><img src="http://i.imgur.com/rtvChJa.png" alt="logo" style="max-height: 2em"  /></a>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <!--
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                -->
+            </ul>
+            <form class="form-inline mt-2 mt-md-0" action="izpis">
+
+
+                <h:button styleClass="btn btn-outline-warning my-2 my-sm-0" rendered="#{uporabnik.posta == 0 and uporabnikBean.novUporabnik.posta == 0}"
+                          outcome="registracijaKmetije.xhtml" value="Aktiviraj kmetijo" style="cursor: pointer"/>
+                <a href="izpis" id="odjava" class="fa-lg" style="margin-left: 3em"><i class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true" />Odjava</a>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+                <ul class="nav nav-pills flex-column">
+                    <!-- TODO: Linkati vse strani -->
+
+                        <li class="nav-item spodaj-border">
+                            <a class="nav-link active" href="vnos-izdelkov.xhtml"><i class="fa fa-edit fa-fw zamik-ikon  active-icon" />Dodaj izdelek</a>
+                        </li>
+                        <li class="nav-item spodaj-border">
+                            <a class="nav-link " href="pregledIzdelkov.xhtml"><i class="fa fa-list fa-fw zamik-ikon" />Preglej izdelke</a>
+                        </li>
+                        <li class="nav-item spodaj-border">
+                            <a class="nav-link " href="paket.xhtml"><i class="fa fa-gift fa-fw zamik-ikon" />Paketi</a>
+                        </li>
+
+
+                </ul>
+
+
+
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item spodaj-border">
+                        <a class="nav-link " href="profil.xhtml"><i class="fa fa-users fa-fw zamik-ikon" />Profil</a>
+                    </li>
+                    <li class="nav-item spodaj-border">
+                        <a class="nav-link " href="iskanje.xhtml"><i class="fa fa-search fa-fw zamik-ikon" />Iskanje</a>
+                    </li>
+                    <li class="nav-item spodaj-border">
+                        <a class="nav-link " href="index.xhtml"><i class="fa fa-home fa-fw zamik-ikon" />Index</a>
+                    </li>
+                </ul>
+
+
+            </nav>
+
+            <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+                <h1>Izdelajte si izdelek po meri</h1>
+                <section class="row text-center placeholders">
+                    <div class="col-md-10 offset-md-1">
+
+                        <h:form id="vnosprodukta">
+                            <div class="form-group">
+                                <h2><i class="fa fa-fw fa-tag" /> Informacije o produktu: </h2>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="naziv">Naziv produkta</label>
+                                <h:inputText id="naziv" value="#{produktBean.noviProdukt.naziv}"
+                                             validatorMessage="Vnesi naziv!" styleClass="form-control" aria-describedby="helpNaziv">
+                                    <f:validateRequired/>
+                                </h:inputText>
+                                <h:message styleClass="span3" for="naziv" style="color:red"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="opis">Deskripcija</label>
+                                <h:inputText id="opis" value="#{produktBean.noviProdukt.opis}"
+                                             validatorMessage="Vnesi opis!" styleClass="form-control" aria-describedby="helpOpis">
+                                    <f:validateRequired/>
+                                </h:inputText>
+                                <h:message styleClass="span3" for="opis" style="color:red"/>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="cena">Vrednost/Cena enega paketa v EUR</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-eur" aria-hidden="true" /></div>
+                                        <h:inputText id="cena" value="#{produktBean.noviProdukt.cena}"
+                                                     validatorMessage="Vnesi ceno!" styleClass="form-control" aria-describedby="helpCena">
+                                            <f:validateRequired/>
+                                            <f:converter converterId="javax.faces.Double" />
+                                        </h:inputText>
+                                        <h:message styleClass="span3" for="cena" style="color:red"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="kolicina">Kolicina v KG</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-shopping-cart" aria-hidden="true" /></div>
+                                        <h:inputText id="kolicina" value="#{produktBean.noviProdukt.kolicina}"
+                                                     validatorMessage="Vnesi količino!" styleClass="form-control" aria-describedby="helpKolicina">
+                                            <f:validateRequired/>
+                                        </h:inputText>
+                                        <h:message styleClass="span3" for="kolicina" style="color:red"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="kategorija">Kategorija</label>
+                                <h:selectOneMenu id="kategorija" value="#{produktBean.noviProdukt.kategorija}"
+                                                 validatorMessage="Vnesi kategorijo" styleClass="form-control" aria-describedby="helpKategorija">
+                                    <f:selectItem itemValue="sadje" itemLabel="Sadje" />
+                                    <f:selectItem itemValue="zelenjava" itemLabel="Zelenjava" />
+                                    <f:selectItem itemValue="meso" itemLabel="Meso" />
+                                    <f:selectItem itemValue="mleko" itemLabel="Mlečni izdelki" />
+                                    <f:selectItem itemValue="zitarice" itemLabel="Žitarice, oreščki in semena" />
+                                    <f:selectItem itemValue="sladko" itemLabel="Sladkarije in maščobe" />
+                                    <f:selectItem itemValue="alkohol" itemLabel="Alkohol" />
+                                    <f:selectItem itemValue="ostalo" itemLabel="Ostalo" />
+                                    <f:validateRequired/>
+                                </h:selectOneMenu>
+                                <h:message styleClass="span3" for="kategorija" style="color:red"/>
+                            </div>
+
+                            <div class="form-group">
+                                <i class="fa fa-hashtag" aria-hidden="true" style="margin-right: 0.25rem"/><label for="znacke">Oznake</label>
+                                <small>Med oznakami pustite vejico(,) - npr.: krompir,zelenjava</small>
+                                <h:inputHidden id="znacke" value="#{produktBean.noviProdukt.nizOznak}" /><br/>
+
+                                <input type="text" value="eko," data-role="tagsinput" id="tags" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <h:commandButton styleClass="btn btn-warning btn-lg" action="pregledIzdelkov.xhtml"
+                                                 actionListener="#{produktBean.shraniProdukt(uporabnikBean.idVpisanegaUporabnika)}"
+                                                 value="Dodaj v trgovino"
+                                                 onclick="return preveriOznake()"
+                                />
+                            </div>
+                        </h:form>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+
+    <!-- JQuery preko Google Apis -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous" />
+
+    <!-- Bootstrap skrite -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous" />
+
+    <!-- Skripte po meri -->
+    <h:outputScript name="js/ie10-viewport-bug-workaround.js" />
+    <h:outputScript name="js/bootstrap-tagsinput.js" />
+
+    <script type="text/javascript">
+
+        function preveriOznake() {
+            console.log("preverjam");
+            var nizOznak = "";
+            $('.tag').each(function(index, obj) {
+                var oznaka = $(this).text();
+                nizOznak = nizOznak + "," + oznaka
+            });
+            nizOznak = nizOznak.substring(1);
+            console.log(nizOznak);
+            document.getElementById('vnosprodukta:znacke').value = nizOznak;
+            if(nizOznak.length &lt; 2){
+                alert("Vnesite znacke");
+                return false;
+            }else{
+                return true;
+            }
+
+
+        }
+    </script>
+</h:body>
+</html>

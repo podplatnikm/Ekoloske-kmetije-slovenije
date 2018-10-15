@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Ekološke Kmetije Slovenije - predstavitev</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta name="author" content= "Praktikum 2 skupina 05" />
+
+    <!-- Bootstrap core -->
+    <h:outputStylesheet name="css/bootstrap.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css"/>
+
+    <!-- Stili po meri -->
+    <h:outputStylesheet name="css/stili-za-vpis.css" />
+    <h:outputStylesheet name="css/stili-za-paket.css"/>
+    <h:outputStylesheet name="css/stili-za-dinamicni-nav.css"/>
+
+    <!-- Dropdown -->
+    <link href="resources/css/kosarica/kosarica.css" rel="stylesheet"/>
+
+    <!-- Fonti/Pisave -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 400px;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar-toggler {
+            z-index: 1;
+        }
+
+        @media (max-width: 576px) {
+            nav > .container {
+                width: 100%;
+            }
+        }
+    </style>
+</h:head>
+<body>
+
+<!-- Navigacija -->
+<c:if test="#{uporabnikBean.naravnaDomacaStran == 'iskanje.xhtml'}">
+    <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-toggleable-md navbar-light" id="mainNav">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false"
+                aria-label="Toggle navigation">
+            Menu <i class="fa fa-bars"></i>
+        </button>
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarExample">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <div class="KOSARICA">
+                            <div class="dropdown1">
+                                <a href="kosarica.xhtml">
+                                    <i class="fa fa-shopping-basket fa-lg fa-fw fa-inverse"
+                                       aria-hidden="true"></i>
+                                </a>
+                                <h:form id="kosaricaForma">
+                                    <div class="dropdown-content1">
+                                        <p:panel id="kosaricaIzpis">
+                                            <c:if test="#{kosarica.kosarica.size() > 0}"><!--
+                                                            <h:outputText
+                                                                    value="Št. produktov = #{kosarica.kosarica.size()}" style="font-size: xx-small" />-->
+                                                <p style="font-size: x-small">Produkti:</p>
+                                                <table>
+                                                    <c:forEach items="#{kosarica.kosarica}" var="produkt">
+                                                        <tr>
+                                                            <td><h:outputText
+                                                                    value="  - ${produkt.naziv}   "
+                                                                    style="font-size: xx-small"/>
+                                                            </td>
+                                                            <td><p:commandButton
+                                                                    actionListener="#{kosarica.odstraniProdukt(produkt)}"
+                                                                    value="x"
+                                                                    style="font-size: xx-small"/>
+                                                            </td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </table>
+                                            </c:if>
+                                            <c:if test="#{kosarica.kosarica.size() == 0}">
+                                                <p style="font-size: x-small">Košarica je prazna!</p>
+                                            </c:if>
+                                        </p:panel>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+
+                    </li>
+                    <li class="nav-item">
+
+                        <div class="dropdown1">
+                            <i id="dropbtn2" class="fa fa-star fa-lg fa-fw fa-inverse" aria-hidden="true"></i>
+                            <f:event type="preRenderView"
+                                     listener="#{uporabnikBean.pridobiPriljubljene(uporabnikBean.idVpisanegaUporabnika)}"/>
+
+                            <h:form id="priljubljeniForma">
+                                <div class="dropdown-content1">
+                                    <p:panel id="priljubljeniIzpis">
+                                        <c:if test="#{uporabnikBean.priljubljeneKmetije.size() > 0}" >
+                                            <p style="font-size: x-small">Priljubljene:</p>
+                                            <table>
+                                                <ui:repeat value="#{uporabnikBean.priljubljeneKmetije}" var="p">
+                                                    <tr>
+                                                        <td>
+                                                            <h:link id="priljubljene" outcome="kontakt" value="- #{p.naziv}" style="font-size: xx-small"> <br/>
+                                                                <f:param name="id" value="#{p.id}"></f:param>
+                                                            </h:link>
+                                                        </td>
+                                                    </tr>
+                                                </ui:repeat>
+                                            </table>
+                                        </c:if>
+                                        <c:if test="#{uporabnikBean.priljubljeneKmetije.size() == 0}" >
+                                            <p style="font-size: x-small">Ni priljubljenih!</p>
+                                        </c:if>
+                                    </p:panel>
+                                </div>
+                            </h:form>
+
+                        </div>
+
+                    </li>
+                    <li class="nav-item">
+
+                        <div class="dropdown1">
+                            <i class="fa fa-gift fa-lg fa-fw fa-inverse" aria-hidden="true"></i>
+                            <f:event type="preRenderView"
+                                     listener="#{paketBean.pridobiPakete(uporabnikBean.idVpisanegaUporabnika)}"/>
+
+                            <h:form id="paketForma">
+                                <div class="dropdown-content1">
+                                    <p:panel id="paketIzpis">
+                                        <c:if test="#{paketBean.paketi.size() > 0}" >
+                                            <p style="font-size: x-small">Paketi:</p>
+                                            <table>
+                                                <ui:repeat value="#{paketBean.paketi}" var="p">
+                                                    <h:link id="paketi" outcome="kontakt" value="#{p.naziv}" style="font-size: xx-small" > <br/>
+                                                        <f:param name="id" value="#{paketBean.pridobiKmetijo(p.id)}"></f:param>
+                                                    </h:link>
+                                                </ui:repeat>
+                                            </table>
+                                        </c:if>
+                                        <c:if test="#{paketBean.paketi.size() == 0}" >
+                                            <p style="font-size: x-small">Niste naročeni na pakete!</p>
+                                        </c:if>
+                                    </p:panel>
+                                </div>
+                            </h:form>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="izpis" style="color: white" class="fa-lg"><i
+                                class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true"></i>Odjava</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</c:if>
+
+<c:if test="#{uporabnikBean.naravnaDomacaStran == 'vnos-izdelkov.xhtml'}">
+    <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-toggleable-md navbar-light" id="mainNav">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarExample" aria-controls="navbarExample" aria-expanded="false" aria-label="Toggle navigation">
+            Menu <i class="fa fa-bars"></i>
+        </button>
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarExample">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a href="izpis" style="color: white" class="fa-lg"><i class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true" />Odjava</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</c:if>
+
+<f:view>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{uporabnikBean.idIzbraneKmetije}"></f:viewParam>
+    </f:metadata>
+    <f:event type="preRenderView" listener="#{uporabnikBean.pridobiKmetijo}" />
+    <f:event type="preRenderView" listener="#{komentarBean.pridobiUporabnika(uporabnikBean.idVpisanegaUporabnika)}" />
+    <f:event type="preRenderView" listener="#{komentarBean.pridobiKomentarje(uporabnikBean.idIzbraneKmetije)}" />
+
+
+    <!-- Naziv kmetije -->
+    <section class="jumbotron text-center" style="margin-bottom: 0em; padding: 6rem 2rem">
+        <div class="container" style="">
+            <h1 id="naslov">#{uporabnikBean.izbranaKmetija.naziv}</h1>
+            <hr class="small" style="border-color: #333333; max-width: 80em; opacity: 0.8" />
+
+            <h:form rendered="#{!uporabnikBean.jeMedPriljubljeni(uporabnikBean.idIzbraneKmetije,uporabnikBean.idVpisanegaUporabnika) and uporabnikBean.naravnaDomacaStran == 'iskanje.xhtml'}">
+                <h:commandButton styleClass="btn btn-success btn-lg" value="Dodaj med priljubljene"
+                                 action="#{uporabnikBean.dodajNaSeznamPriljubljenih(uporabnikBean.idIzbraneKmetije,uporabnikBean.idVpisanegaUporabnika)}"
+                                 style="border-radius: 0px"/>
+                <h:commandButton id="preisci-ponudbo-first" action="#{iskanje.isciKategorijo(uporabnikBean.izbranaKmetija.naziv)}" value="Preišči njihovo ponudbo"
+                                 styleClass="btn btn-dark btn-lg"
+                                 style="border-radius: 0px; margin-left: 0.5em"/>
+                <button type="button" class="btn btn-secondary btn-lg" style="border-radius: 0px; margin-left: 0.25em" data-toggle="modal" data-target="#exampleModalLong">Oddaj mnenje</button>
+            </h:form>
+            <h:form rendered="#{uporabnikBean.jeMedPriljubljeni(uporabnikBean.idIzbraneKmetije,uporabnikBean.idVpisanegaUporabnika) and uporabnikBean.naravnaDomacaStran == 'iskanje.xhtml'}">
+                <h:commandButton styleClass="btn btn-danger btn-lg" value="Odstrani iz seznama priljubljenih"
+                                 action="#{uporabnikBean.izbrisiIzSeznamaPriljubljenih(uporabnikBean.idIzbraneKmetije,uporabnikBean.idVpisanegaUporabnika)}"
+                style="border-radius: 0px"/>
+                <h:commandButton id="preisci-ponudbo-second" action="#{iskanje.isciKategorijo(uporabnikBean.izbranaKmetija.naziv)}" value="Preišči njihovo ponudbo"
+                                 styleClass="btn btn-dark btn-lg"
+                                 style="border-radius: 0px; margin-left: 0.5em"/>
+                <button type="button" class="btn btn-secondary btn-lg" style="border-radius: 0px; margin-left: 0.25em" data-toggle="modal" data-target="#exampleModalLong">Oddaj mnenje</button>
+            </h:form>
+            <c:if test="#{empty uporabnik}">
+            <h:commandButton id="preisci-ponudbo-third" action="#{iskanje.isciKategorijo(uporabnikBean.izbranaKmetija.naziv)}" value="Preišči njihovo ponudbo"
+                             styleClass="btn btn-dark btn-lg"
+                             style="border-radius: 0px; margin-left: 0.5em"/></c:if>
+        </div>
+    </section>
+
+    <!-- Modul za oddajo mnenja -->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <h:form id="vnosKomentarja">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle" style="margin-top: 3em">Oddaj mnenje za: #{uporabnikBean.izbranaKmetija.naziv}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                                <p:rating id="ocena" value="#{komentarBean.ocena}" />
+                           <h:inputTextarea id="komentar" value="#{komentarBean.besedilo}" rows="5" cols="30" style="width: 100%"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Preklici</button>
+                    <h:commandButton id="shrani" value="Shrani" styleClass="btn btn-primary"
+                                     actionListener="#{komentarBean.shraniKomentar(uporabnikBean.idIzbraneKmetije, uporabnikBean.idVpisanegaUporabnika)}"
+                                     ajax="false"/>
+                </div>
+                </h:form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Zemljevid -->
+    <!--<section id="kjeSmo" class="map">
+        <div id="map"></div>
+    </section>
+    <br/>
+    <br/>-->
+
+    <!-- Opis in kontaktni podatki -->
+
+    <section id="oNas">
+        <div id="map" />
+    </section>
+
+
+    <!-- NFO -->
+    <section id="info" class="about">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-10 offset-lg-1">
+                <div class="col-lg-12" style="margin-bottom: 2rem">
+                <h1 style="font-size: 3rem" id="info-h1">Kontaktirajte nas</h1>
+                    <h4 style="opacity: 0.8" id="info-h4">Stopite v stik z nami in začnimo skupno zgodbo</h4>
+                </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="card card-outline-success mb-3 text-center">
+                            <div class="card-block">
+                                <span class="fa-stack fa-5x">
+                                    <i class="fa fa-circle fa-stack-2x" style="color: #5cb85c"/>
+                                    <i class="fa fa-envelope-o fa-stack-1x fa-inverse" style="color: whitesmoke" />
+                                </span>
+                                <blockquote class="card-blockquote">
+                                    <h1>Email</h1>
+                                    <p style="opacity: 0.8">#{uporabnikBean.izbranaKmetija.email}</p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="card card-outline-success mb-3 text-center">
+                            <div class="card-block">
+                                <span class="fa-stack fa-5x">
+                                    <i class="fa fa-circle fa-stack-2x" style="color: #5cb85c"/>
+                                    <i class="fa fa-map-marker fa-stack-1x fa-inverse" style="color: whitesmoke" />
+                                </span>
+                                <blockquote class="card-blockquote">
+                                    <h1>Nahajališče</h1>
+                                    <p style="opacity: 0.8">#{uporabnikBean.izbranaKmetija.naslov}</p>
+                                    <p style="opacity: 0.8">#{uporabnikBean.izbranaKmetija.posta}, #{uporabnikBean.izbranaKmetija.kraj}</p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                        <div class="card card-outline-success mb-3 text-center">
+                            <div class="card-block">
+                                <span class="fa-stack fa-5x">
+                                    <i class="fa fa-circle fa-stack-2x" style="color: #5cb85c"/>
+                                    <i class="fa fa-mobile fa-stack-1x fa-inverse" style="color: whitesmoke" />
+                                </span>
+                                <blockquote class="card-blockquote">
+                                    <h1>Telefon</h1>
+                                    <p style="opacity: 0.8">#{uporabnikBean.izbranaKmetija.telefonskaStevilka}</p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Paketi -->
+    <h:form rendered="#{paketBean.pridobiPaket(uporabnikBean.idIzbraneKmetije) ne null}">
+        <section class="xop-container" id="paketi">
+            <div class="xop-center">
+                <article>
+                    <h1 class="paket-naziv"><i class="fa fa-gift " aria-hidden="true" />
+                    #{paketBean.obstojeciPaket.naziv}</h1>
+                    <hr class="small" style="border-color: #0f0f0f"/>
+                    <h3>#{paketBean.obstojeciPaket.opis}</h3>
+                    <h3>Cena: #{paketBean.obstojeciPaket.cena}€</h3>
+                    <br/>
+                    <h:form rendered="#{!paketBean.jeNarocen(uporabnikBean.idIzbraneKmetije,uporabnikBean.idVpisanegaUporabnika)}">
+                        <h:commandButton value="Naroči se"  action="#{paketBean.dodajNarocnika(uporabnikBean.idIzbraneKmetije,uporabnikBean.idVpisanegaUporabnika)}" styleClass="btn btn-warning btn-lg"
+                                         style="font-size: 2.25rem; padding: 1.5rem 2.5rem"/>
+                    </h:form>
+                    <h:form rendered="#{paketBean.jeNarocen(uporabnikBean.idIzbraneKmetije,uporabnikBean.idVpisanegaUporabnika)}">
+                        <h:commandButton value="Odjavi se"  action="#{paketBean.izbrisiNarocnika(uporabnikBean.idIzbraneKmetije,uporabnikBean.idVpisanegaUporabnika)}" styleClass="btn btn-danger btn-lg"
+                        style="font-size: 2.25rem; padding: 1.5rem 2.5rem"/>
+                    </h:form>
+                    <br/>
+
+                </article>
+            </div>
+        </section>
+    </h:form>
+
+
+</f:view>
+<!-- Zacetek # Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1 text-center">
+                <h4><strong>EKOLOSKE KMETIJE SLOVENIJE</strong>
+                </h4>
+                <p>Fakulteta za elektrotehniko, računalništvo in informatiko v Mariboru
+                    <br />Smetanova ulica 17, 2000 Maribor</p>
+                <ul class="list-unstyled">
+                    <li><i class="fa fa-phone fa-fw"></i>  (02) 220 70 00</li>
+                    <li><i class="fa fa-envelope-o fa-fw"></i> <a href="mailto:info.ekslovenija@gmail.com">info.ekslovenija@gmail.com</a>
+                    </li>
+                </ul>
+                <br />
+                <hr class="small" />
+                <p class="text-muted">Pravice Skupina 05, praktikum 2</p>
+            </div>
+        </div>
+    </div>
+    <a id="to-top" href="#top" class="btn btn-dark btn-lg"><i class="fa fa-chevron-up fa-fw fa-1x"></i></a>
+</footer>
+<!-- Konec | Footer -->
+
+
+<script>
+
+    var naslov="#{uporabnikBean.izbranaKmetija.naslov}"+", "+"#{uporabnikBean.izbranaKmetija.kraj}";
+    var infoWindow, map;
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.397, lng: 150.644},
+            zoom: 14,
+            scrollwheel: false
+        });
+
+        infoWindow = new google.maps.InfoWindow;
+        var geocoder = new google.maps.Geocoder();
+        window.onload = geocodeAddress(geocoder, map);
+    }
+        function geocodeAddress(geocoder, resultsMap) {
+            geocoder.geocode({'address': naslov}, function (results, status) {
+                if (status === 'OK') {
+                    var marker = new google.maps.Marker({
+                        map: resultsMap,
+                        position: results[0].geometry.location
+                    });
+                    map.setCenter(results[0].geometry.location);
+
+                } else {
+                    console.log('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByLr-aHHpzagMEby3tumeCcWetol67XnI&amp;callback=initMap" async="" defer=""></script>
+<!-- JQuery preko Google Apis -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"  type="text/javascript"></script>
+
+<!-- Bootstrap skrite -->
+<h:outputScript name="js/bootstrap.js" />
+
+<!-- Skripte po meri -->
+<script src="resources/js/skripta-za-dinamicni-nav.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    // Closes the sidebar menu
+    $("#menu-close").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+    // Opens the sidebar menu
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+    });
+    // Scrolls to the selected menu item on the page
+    $(function() {
+        $('a[href*=#]:not([href=#],[data-toggle],[data-target],[data-slide])').click(function() {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html,body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    });
+    //#to-top button appears after scrolling
+    var fixed = false;
+    $(document).scroll(function() {
+        if ($(this).scrollTop() > 250) {
+            if (!fixed) {
+                fixed = true;
+                // $('#to-top').css({position:'fixed', display:'block'});
+                $('#to-top').show("slow", function() {
+                    $('#to-top').css({
+                        position: 'fixed',
+                        display: 'block'
+                    });
+                });
+            }
+        } else {
+            if (fixed) {
+                fixed = false;
+                $('#to-top').hide("slow", function() {
+                    $('#to-top').css({
+                        display: 'none'
+                    });
+                });
+            }
+        }
+    });
+    // Disable Google Maps scrolling
+    // See http://stackoverflow.com/a/25904582/1607849
+    // Disable scroll zooming and bind back the click event
+    var onMapMouseleaveHandler = function(event) {
+        var that = $(this);
+        that.on('click', onMapClickHandler);
+        that.off('mouseleave', onMapMouseleaveHandler);
+        that.getElementById('map').css("pointer-events", "none");
+        //that.find('iframe').css("pointer-events", "none");
+    }
+    var onMapClickHandler = function(event) {
+        var that = $(this);
+        // Disable the click handler until the user leaves the map area
+        that.off('click', onMapClickHandler);
+        // Enable scrolling zoom
+        that.getElementById('map').css("pointer-events", "auto");
+        // Handle the mouse leave event
+        that.on('mouseleave', onMapMouseleaveHandler);
+    }
+    // Enable map zooming with mouse scroll when the user clicks the map
+    $('#map').on('click', onMapClickHandler);
+</script>
+</body>
+</html>

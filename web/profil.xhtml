@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta name="author" content="Praktikum 2 skupina 05" />
+
+    <title>Profil- Ponudnik</title>
+
+    <!-- Bootstrap core-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+          integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css" />
+
+    <!-- Stili po meri -->
+    <link rel="stylesheet" href="resources/css/dashboard.css" />
+
+    <!-- Fonti/Pisave -->
+    <link href="css/fonts/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</h:head>
+<h:body>
+
+    <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse" >
+        <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="vnos-izdelkov.xhtml.xhtml" ><img src="http://i.imgur.com/rtvChJa.png" alt="logo" style="max-height: 2em"  /></a>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <!--
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                -->
+            </ul>
+            <form class="form-inline mt-2 mt-md-0" action="izpis">
+
+                <a href="izpis" id="odjava" class="fa-lg" style="margin-left: 3em"><i class="fa fa-sign-out fa-lg fa-fw fa-inverse" aria-hidden="true"></i>Odjava</a>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+                <ul class="nav nav-pills flex-column">
+                    <!-- TODO: Linkati vse strani -->
+                    <li class="nav-item spodaj-border">
+                            <a class="nav-link " href="vnos-izdelkov.xhtml"><i class="fa fa-edit fa-fw zamik-ikon"></i>Dodaj izdelek</a>
+                        </li>
+                        <li class="nav-item spodaj-border">
+                            <a class="nav-link " href="pregledIzdelkov.xhtml"><i class="fa fa-list fa-fw zamik-ikon"></i>Preglej izdelke</a>
+                        </li>
+                        <li class="nav-item spodaj-border">
+                            <a class="nav-link " href="paket.xhtml"><i class="fa fa-gift fa-fw zamik-ikon "></i>Paketi</a>
+                        </li>
+
+
+                </ul>
+
+
+
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item spodaj-border">
+                        <a class="nav-link active" href="profil.xhtml"><i class="fa fa-users fa-fw zamik-ikon active-icon"></i>Profil</a>
+                    </li>
+                    <li class="nav-item spodaj-border">
+                        <a class="nav-link " href="iskanje.xhtml"><i class="fa fa-search fa-fw zamik-ikon"></i>Iskanje</a>
+                    </li>
+                    <li class="nav-item spodaj-border">
+                        <a class="nav-link " href="index.xhtml"><i class="fa fa-home fa-fw zamik-ikon"></i>Index</a>
+                    </li>
+                </ul>
+
+
+            </nav>
+
+            <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+                <h1>Moj profile informacije</h1>
+                <section class="row text-center placeholders">
+                    <div class="col-6 col-sm-3 col-md-6">
+                        <div id="accordion" role="tablist" aria-multiselectable="true">
+
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingOne text-center">
+                                    <h5 class="mb-0 naslov-naslov" style="color: #2c333b; text-transform: lowercase;">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="color: #2c333b">
+                                            Deskripcija Vas in Vaših storitev
+                                        </a>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="card-block">
+
+                                        <c:choose>
+                                            <c:when test="#{null != uporabnikBean.vpisanUporabnik.opis or uporabnik.opis != null or uporabnikBean.uporabnik.opis != null}">
+                                                <div id="opis">
+                                                    <p><i>#{uporabnikBean.vpisanUporabnik.opis}</i></p>
+                                                    <button id="urediOpis1" class="btn btn-primary">Uredi</button>
+                                                    <br/>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div>
+                                                    <p><i>Niste še dodali opisa!</i></p>
+                                                    <br />
+                                                    <button id="urediOpis2" class="btn btn-primary">Dodaj</button>
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                        <ui:remove>
+                                        <c:if test="#{null != uporabnikBean.vpisanUporabnik.opis or uporabnik.opis != null or uporabnikBean.uporabnik.opis != null}">
+                                            <div id="opis">
+                                                <p><i>#{uporabnikBean.vpisanUporabnik.opis}</i></p>
+                                                <button id="urediOpis1" class="btn btn-primary">Uredi</button>
+                                                <br/>
+                                            </div>
+                                        </c:if>
+
+                                        <c:if test="#{null == uporabnikBean.vpisanUporabnik.opis and uporabnik.opis == null}">
+                                            <div>
+                                                <p><i>Niste še dodali opisa!</i></p>
+                                                <br />
+                                                <button id="urediOpis2" class="btn btn-primary">Dodaj</button>
+                                            </div>
+                                        </c:if>
+                                        </ui:remove>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingTwo text-center">
+                                    <h5 class="mb-0 naslov-naslov" style="color: #2c333b; text-transform: lowercase;">
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="color: #2c333b">
+                                            Kontaktne informacije
+                                        </a>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                    <div class="card-block">
+                                        <div class="span9">
+                                            <f:event type="preRenderView" listener="#{uporabnikBean.nastaviVpisanegaUporabnika}"/>
+
+                                            <p>
+                                            <i class="fa fa-fw fa-envelope-o kontakt-icon " /><h:outputLabel value="#{uporabnikBean.vpisanUporabnik.email}"/>
+                                            </p>
+                                            <p>
+                                                <i class="fa fa-fw fa-map-marker kontakt-icon" /><h:outputLabel value="#{uporabnikBean.vpisanUporabnik.naslov}"/><br />
+                                                <h:outputLabel value="#{uporabnikBean.vpisanUporabnik.posta}, " style="margin-right: 0.25em"/><h:outputLabel value=" #{uporabnikBean.vpisanUporabnik.kraj}"/>
+                                            </p>
+                                            <p>
+                                                <i class="fa fa-fw fa-mobile kontakt-icon" /><h:outputLabel value="#{uporabnikBean.vpisanUporabnik.telefonskaStevilka}"/>
+                                            </p>
+                                            <button id="urediKontakt" class="btn btn-primary">Uredi</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            </div>
+
+                    </div>
+
+                    <div class="col-6 col-sm-3 col-md-6">
+                        <div id="vnosOpisa1">
+                            <h:form id="urediOpis1Form">
+
+                                <div class="form-group">
+                                    <label for="opis1" ><h5 style="color: #2c333b">opis</h5></label>
+                                    <h:message for="opis1" />
+                                    <h:inputTextarea id="opis1" value="#{uporabnikBean.novUporabnik.opis}"
+                                                     validatorMessage="Vnesi opis!" required="true" styleClass="form-control" aria-describedby="helpNaslov">
+                                        <f:validateRequired/>
+                                    </h:inputTextarea>
+                                </div>
+
+                                <div class="form-group">
+
+                                            <h:commandButton value="Shrani"
+                                                             actionListener="#{uporabnikBean.spremeniOpis}"
+                                                             action="profil.xhtml?faces-redirect=true" styleClass="btn btn-success btn-sm" style="cursor: pointer"/>
+
+                                            <button type="reset" id="prekliciOpis1" class="btn btn-danger btn-sm" style="cursor: pointer">Prekliči</button>
+
+
+                                </div>
+
+                            </h:form>
+                        </div>
+
+                        <div id="vnosOpisa2">
+                            <h:form id="urediOpis2Form">
+
+                                <div class="form-group">
+                                    <label for="opis2"><h5 style="color: #2c333b">opis</h5></label>
+                                    <h:message for="opis2" />
+                                    <h:inputTextarea id="opis2" value="#{uporabnikBean.novUporabnik.opis}"
+                                                     validatorMessage="Vnesi opis!" required="true" styleClass="form-control" aria-describedby="helpNaslov">
+                                        <f:validateRequired/>
+                                    </h:inputTextarea>
+                                </div>
+
+                                <div class="form-group">
+
+                                            <h:commandButton value="Shrani"
+                                                             actionListener="#{uporabnikBean.spremeniOpis}"
+                                                             action="profil.xhtml?faces-redirect=true" styleClass="btn btn-success btn-sm" style="cursor: pointer"/>
+
+                                            <button type="reset" id="prekliciOpis2" class="btn btn-danger btn-sm" style="cursor: pointer">Prekliči</button>
+
+                                </div>
+
+                            </h:form>
+                        </div>
+
+                        <div id="vnosKontakta">
+                            <h:form id="urediKontaktForm">
+
+                                <div class="form-group">
+                                    <label for="telefon" ><h5 style="color: #2c333b">telefon</h5></label>
+                                    <h:inputText id="telefon" value="#{uporabnikBean.novUporabnik.telefonskaStevilka}"
+                                                 validatorMessage="Pravilno vnesi novo telefonsko številko!" required="true" styleClass="form-control" aria-describedby="helpNaslov">
+                                        <f:validateRegex pattern="(?:[+])?[0-9]+(?:[ /.,|-]?[(]?[ 0-9][)]?)+" />
+                                        <f:validateRequired/>
+                                    </h:inputText>
+                                    <h:message styleClass="span3" for="telefon" style="color:red"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="naslov" ><h5 style="color: #2c333b">naslov</h5></label>
+                                    <h:inputText id="naslov" value="#{uporabnikBean.novUporabnik.naslov}"
+                                                 validatorMessage="Vnesi nov naslov!" required="true" styleClass="form-control" aria-describedby="helpNaslov">
+                                        <f:validateRequired/>
+                                    </h:inputText>
+                                    <h:message styleClass="span3" for="naslov" style="color:red"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="posta" ><h5 style="color: #2c333b">posta</h5></label>
+                                    <h:inputText id="posta" value="#{uporabnikBean.novUporabnik.posta}"
+                                                 converterMessage="Pravilno vnesi poštno številko!"
+                                                 maxlength="4" required="true" styleClass="form-control" aria-describedby="helpNaslov">
+                                        <f:validateLength maximum="4" minimum="4"/>
+                                        <p:clientValidator />
+                                        <f:validateRequired/>
+                                    </h:inputText>
+                                    <h:message styleClass="span3" for="posta" style="color:red"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="kraj" ><h5 style="color: #2c333b">kraj</h5></label>
+                                    <h:inputText id="kraj" value="#{uporabnikBean.novUporabnik.kraj}"
+                                                 validatorMessage="Vnesi nov kraj!" required="true" styleClass="form-control" aria-describedby="helpNaslov">
+                                        <f:validateLength minimum="3" />
+                                        <p:clientValidator />
+                                        <f:validateRequired/>
+                                    </h:inputText>
+                                    <h:message styleClass="span3" for="kraj" style="color:red"/>
+                                </div>
+
+                                <div class="form-group">
+
+                                    <h:commandButton id="test" styleClass="btn btn-success btn-sm" value="Shrani" actionListener="#{uporabnikBean.spremeniKontakt}" validateClient="true" style="margin-right:10px"/>
+
+                                    <button type="reset" id="prekliciKontakt" class="btn btn-danger btn-sm">Prekliči</button>
+                                </div>
+                            </h:form>
+                        </div>
+
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+
+    <!-- JQuery preko Google Apis -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous" />
+
+    <!-- Bootstrap skrite -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous" />
+
+    <!-- Skripte po meri -->
+    <h:outputScript name="js/ie10-viewport-bug-workaround.js" />
+    <script src="js/flexslider.js"></script>
+    <script src="js/carousel.js"></script>
+    <script src="js/jquery.cslider.js"></script>
+    <script src="js/slider.js"></script>
+    <script defer="defer" src="js/custom.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#vnosKontakta").hide();
+            $("#vnosOpisa1").hide();
+            $("#vnosOpisa2").hide();
+
+            $("#urediKontakt").click(function () {
+                $("#vnosKontakta").show();
+            });
+
+            $("#prekliciKontakt").click(function () {
+                $("#vnosKontakta").hide();
+            });
+
+            $("#urediOpis1").click(function () {
+                $("#vnosOpisa1").show();
+            });
+
+            $("#prekliciOpis1").click(function () {
+                $("#vnosOpisa1").hide();
+            });
+
+            $("#urediOpis2").click(function () {
+                $("#vnosOpisa2").show();
+            });
+
+            $("#prekliciOpis2").click(function () {
+                $("#vnosOpisa2").hide();
+            });
+
+            $("#test").click(function () {
+                location.reload(true);
+            });
+
+        });
+    </script>
+</h:body>
+</html>
