@@ -24,7 +24,3 @@ Projekt za predmet Praktikum 2 - Ekološke Kmetije Slovenije. Definiramo 3 grupe
 * **David Žolger** - *izvorni član* - [GitHub](https://github.com/DavidZolger)
 * **Urh Kraner** - *izvorni član* - [GitHub](https://github.com/UrhKraner)
 * **Miha Podplatnik** - *izvorni član* - [GitHub](https://github.com/kekec23)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
